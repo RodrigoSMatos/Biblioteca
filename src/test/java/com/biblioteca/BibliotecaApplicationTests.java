@@ -1,12 +1,11 @@
 package com.biblioteca;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class BibliotecaApplicationTests {
+class BibliotecaApplicationTest {
 
     @Test
-    void contextLoads() {
+    void mainTest() {
+        BibliotecaApplication.main(new String[]{});
     }
 }

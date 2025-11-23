@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoriaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Biblioteca</a> &gt; <a href="index.source.html" class="el_package">com.biblioteca.controller</a> &gt; <span class="el_source">CategoriaController.java</span></div><h1>CategoriaController.java</h1><pre class="source lang-java linenums">package com.biblioteca.controller;
+
+import com.biblioteca.model.Categoria;
+import com.biblioteca.service.CategoriaService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/categorias&quot;)
+<span class="fc" id="L15">@RequiredArgsConstructor</span>
+public class CategoriaController {
+
+    private final CategoriaService categoriaService;
+
+    @PostMapping
+    public ResponseEntity&lt;Categoria&gt; criar(@Valid @RequestBody Categoria categoria) {
+<span class="fc" id="L22">        Categoria criada = categoriaService.criar(categoria);</span>
+<span class="fc" id="L23">        return ResponseEntity.created(URI.create(&quot;/categorias/&quot; + criada.getId())).body(criada);</span>
+    }
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;Categoria&gt;&gt; listar() {
+<span class="fc" id="L28">        return ResponseEntity.ok(categoriaService.listar());</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Categoria&gt; buscarPorId(@PathVariable Long id) {
+<span class="fc" id="L33">        return ResponseEntity.ok(categoriaService.buscarPorId(id));</span>
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Categoria&gt; atualizar(@PathVariable Long id,
+                                               @Valid @RequestBody Categoria categoria) {
+<span class="fc" id="L39">        return ResponseEntity.ok(categoriaService.atualizar(id, categoria));</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deletar(@PathVariable Long id) {
+<span class="fc" id="L44">        categoriaService.deletar(id);</span>
+<span class="fc" id="L45">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,8 +1,14 @@
-package com.biblioteca.service;
+package com.biblioteca.service; // ajuste o pacote
 
+import com.biblioteca.dto.LivroCreateUpdateDTO;
+import com.biblioteca.dto.LivroDTO;
 import com.biblioteca.exception.ResourceNotFoundException;
+import com.biblioteca.mapper.LivroMapper;
+import com.biblioteca.model.Categoria;
 import com.biblioteca.model.Livro;
+import com.biblioteca.repository.CategoriaRepository;
 import com.biblioteca.repository.LivroRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,45 +19,49 @@ import java.util.List;
 public class LivroService {
 
     private final LivroRepository livroRepository;
+    private final CategoriaRepository categoriaRepository;
 
-    public Livro criar(Livro livro) {
-        if (livroRepository.existsByIsbn(livro.getIsbn())) {
-            throw new IllegalArgumentException("Já existe um livro com esse ISBN.");
-        }
-        return livroRepository.save(livro);
+    public LivroDTO criar(LivroCreateUpdateDTO dto) {
+        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada: " + dto.getCategoriaId()));
+
+        Livro livro = LivroMapper.fromCreateDTO(dto, categoria);
+
+        Livro salvo = livroRepository.save(livro);
+        return LivroMapper.toDTO(salvo);
     }
 
-    public List<Livro> listarTodos() {
-        return livroRepository.findAll();
+    public List<LivroDTO> listar() {
+        return livroRepository.findAll()
+                .stream()
+                .map(LivroMapper::toDTO)
+                .toList();
     }
 
-    public Livro buscarPorId(Long id) {
-        return livroRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Livro com id " + id + " não encontrado."));
+    public LivroDTO buscarPorId(Long id) {
+        Livro livro = livroRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado: " + id));
+
+        return LivroMapper.toDTO(livro);
     }
 
-    public Livro atualizar(Long id, Livro dadosAtualizados) {
-        Livro existente = buscarPorId(id);
+    public LivroDTO atualizar(Long id, LivroCreateUpdateDTO dto) {
+        Livro livro = livroRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado: " + id));
 
-        existente.setTitulo(dadosAtualizados.getTitulo());
-        existente.setAutor(dadosAtualizados.getAutor());
-        existente.setIsbn(dadosAtualizados.getIsbn());
-        existente.setAnoPublicacao(dadosAtualizados.getAnoPublicacao());
-        existente.setQuantidadeExemplares(dadosAtualizados.getQuantidadeExemplares());
+        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada: " + dto.getCategoriaId()));
 
-        return livroRepository.save(existente);
+        LivroMapper.updateEntity(livro, dto, categoria);
+
+        Livro salvo = livroRepository.save(livro);
+        return LivroMapper.toDTO(salvo);
     }
 
     public void deletar(Long id) {
-        Livro existente = buscarPorId(id);
-        livroRepository.delete(existente);
-    }
+        Livro livro = livroRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado: " + id));
 
-    public List<Livro> buscarPorAutor(String autor) {
-        return livroRepository.findByAutorContainingIgnoreCase(autor);
-    }
-
-    public List<Livro> buscarPorTitulo(String titulo) {
-        return livroRepository.findByTituloContainingIgnoreCase(titulo);
+        livroRepository.delete(livro);
     }
 }

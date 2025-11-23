@@ -1,0 +1,16 @@
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\BibliotecaApplication.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\controller\CategoriaController.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\controller\LivroController.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\dto\CategoriaDTO.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\dto\LivroCreateUpdateDTO.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\dto\LivroDTO.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\exception\ApiError.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\exception\GlobalExceptionHandler.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\exception\ResourceNotFoundException.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\mapper\LivroMapper.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\model\Categoria.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\model\Livro.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\repository\CategoriaRepository.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\repository\LivroRepository.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\service\CategoriaService.java
+D:\Downloads\Biblioteca\src\main\java\com\biblioteca\service\LivroService.java

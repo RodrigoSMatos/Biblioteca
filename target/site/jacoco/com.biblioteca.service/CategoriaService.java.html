@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoriaService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Biblioteca</a> &gt; <a href="index.source.html" class="el_package">com.biblioteca.service</a> &gt; <span class="el_source">CategoriaService.java</span></div><h1>CategoriaService.java</h1><pre class="source lang-java linenums">package com.biblioteca.service;
+
+import com.biblioteca.model.Categoria;
+import com.biblioteca.repository.CategoriaRepository;
+import com.biblioteca.exception.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L12">@RequiredArgsConstructor</span>
+public class CategoriaService {
+
+    private final CategoriaRepository categoriaRepository;
+
+    public Categoria criar(Categoria categoria) {
+<span class="fc" id="L18">        return categoriaRepository.save(categoria);</span>
+    }
+
+    public List&lt;Categoria&gt; listar() {
+<span class="fc" id="L22">        return categoriaRepository.findAll();</span>
+    }
+
+    public Categoria buscarPorId(Long id) {
+<span class="fc" id="L26">        return categoriaRepository.findById(id)</span>
+<span class="fc" id="L27">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Categoria não encontrada com ID: &quot; + id));</span>
+    }
+
+    public Categoria atualizar(Long id, Categoria categoriaAtualizada) {
+<span class="fc" id="L31">        Categoria categoria = buscarPorId(id);</span>
+
+<span class="fc" id="L33">        categoria.setNome(categoriaAtualizada.getNome());</span>
+
+<span class="fc" id="L35">        return categoriaRepository.save(categoria);</span>
+    }
+
+    public void deletar(Long id) {
+<span class="fc" id="L39">        Categoria categoria = buscarPorId(id);</span>
+<span class="fc" id="L40">        categoriaRepository.delete(categoria);</span>
+<span class="fc" id="L41">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

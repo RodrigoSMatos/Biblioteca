@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LivroService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Biblioteca</a> &gt; <a href="index.source.html" class="el_package">com.biblioteca.service</a> &gt; <span class="el_source">LivroService.java</span></div><h1>LivroService.java</h1><pre class="source lang-java linenums">package com.biblioteca.service; // ajuste o pacote
+
+import com.biblioteca.dto.LivroCreateUpdateDTO;
+import com.biblioteca.dto.LivroDTO;
+import com.biblioteca.exception.ResourceNotFoundException;
+import com.biblioteca.mapper.LivroMapper;
+import com.biblioteca.model.Categoria;
+import com.biblioteca.model.Livro;
+import com.biblioteca.repository.CategoriaRepository;
+import com.biblioteca.repository.LivroRepository;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L18">@RequiredArgsConstructor</span>
+public class LivroService {
+
+    private final LivroRepository livroRepository;
+    private final CategoriaRepository categoriaRepository;
+
+    public LivroDTO criar(LivroCreateUpdateDTO dto) {
+<span class="fc" id="L25">        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())</span>
+<span class="fc" id="L26">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Categoria não encontrada: &quot; + dto.getCategoriaId()));</span>
+
+<span class="fc" id="L28">        Livro livro = LivroMapper.fromCreateDTO(dto, categoria);</span>
+
+<span class="fc" id="L30">        Livro salvo = livroRepository.save(livro);</span>
+<span class="fc" id="L31">        return LivroMapper.toDTO(salvo);</span>
+    }
+
+    public List&lt;LivroDTO&gt; listar() {
+<span class="fc" id="L35">        return livroRepository.findAll()</span>
+<span class="fc" id="L36">                .stream()</span>
+<span class="fc" id="L37">                .map(LivroMapper::toDTO)</span>
+<span class="fc" id="L38">                .toList();</span>
+    }
+
+    public LivroDTO buscarPorId(Long id) {
+<span class="fc" id="L42">        Livro livro = livroRepository.findById(id)</span>
+<span class="fc" id="L43">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Livro não encontrado: &quot; + id));</span>
+
+<span class="fc" id="L45">        return LivroMapper.toDTO(livro);</span>
+    }
+
+    public LivroDTO atualizar(Long id, LivroCreateUpdateDTO dto) {
+<span class="fc" id="L49">        Livro livro = livroRepository.findById(id)</span>
+<span class="pc" id="L50">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Livro não encontrado: &quot; + id));</span>
+
+<span class="fc" id="L52">        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())</span>
+<span class="pc" id="L53">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Categoria não encontrada: &quot; + dto.getCategoriaId()));</span>
+
+<span class="fc" id="L55">        LivroMapper.updateEntity(livro, dto, categoria);</span>
+
+<span class="fc" id="L57">        Livro salvo = livroRepository.save(livro);</span>
+<span class="fc" id="L58">        return LivroMapper.toDTO(salvo);</span>
+    }
+
+    public void deletar(Long id) {
+<span class="fc" id="L62">        Livro livro = livroRepository.findById(id)</span>
+<span class="pc" id="L63">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Livro não encontrado: &quot; + id));</span>
+
+<span class="fc" id="L65">        livroRepository.delete(livro);</span>
+<span class="fc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

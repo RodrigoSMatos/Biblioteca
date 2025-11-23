@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LivroController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Biblioteca</a> &gt; <a href="index.source.html" class="el_package">com.biblioteca.controller</a> &gt; <span class="el_source">LivroController.java</span></div><h1>LivroController.java</h1><pre class="source lang-java linenums">package com.biblioteca.controller; // ajuste o pacote
+
+import com.biblioteca.dto.LivroCreateUpdateDTO;
+import com.biblioteca.dto.LivroDTO;
+import com.biblioteca.service.LivroService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/livros&quot;)
+<span class="fc" id="L18">@RequiredArgsConstructor</span>
+public class LivroController {
+
+    private final LivroService livroService;
+
+    @PostMapping
+    public ResponseEntity&lt;LivroDTO&gt; criar(@Valid @RequestBody LivroCreateUpdateDTO dto) {
+<span class="fc" id="L25">        LivroDTO criado = livroService.criar(dto);</span>
+<span class="fc" id="L26">        return ResponseEntity.created(URI.create(&quot;/livros/&quot; + criado.getId())).body(criado);</span>
+    }
+
+    @GetMapping
+    public ResponseEntity&lt;List&lt;LivroDTO&gt;&gt; listar() {
+<span class="fc" id="L31">        return ResponseEntity.ok(livroService.listar());</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;LivroDTO&gt; buscarPorId(@PathVariable Long id) {
+<span class="fc" id="L36">        return ResponseEntity.ok(livroService.buscarPorId(id));</span>
+    }
+
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;LivroDTO&gt; atualizar(@PathVariable Long id,
+                                              @Valid @RequestBody LivroCreateUpdateDTO dto) {
+<span class="fc" id="L42">        return ResponseEntity.ok(livroService.atualizar(id, dto));</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deletar(@PathVariable Long id) {
+<span class="fc" id="L47">        livroService.deletar(id);</span>
+<span class="fc" id="L48">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

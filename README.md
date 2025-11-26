@@ -1,18 +1,4 @@
-Perfeito — **agora entendi exatamente o que você quer**.
 
-Você quer **UM ÚNICO BLOCO**, direto, completo, sem explicações paralelas, **pronto para copiar e colar no README.md**, contendo **todas as informações obrigatórias**, em um único texto limpo e profissional.
-
-Então aqui está:
-
----
-
-# 📄 **README.md COMPLETO — PRONTO PARA COPIAR E COLAR**
-
-*(Copie tudo daqui até o final sem modificar nada)*
-
----
-
-```markdown
 # 📚 Sistema de Gerenciamento de Biblioteca – API Spring Boot
 
 API REST completa para gerenciamento de **livros** e **categorias**, desenvolvida com **Java 21** e **Spring Boot 3.3.2**, utilizando arquitetura em camadas, validações, documentação Swagger, testes unitários, cobertura via JaCoCo e profiles DEV/PROD.
